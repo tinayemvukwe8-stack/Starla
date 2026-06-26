@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#FF6EB4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Your personal glow up & manifestation companion">
+<title>Luminа ✨</title>
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF6EB4;
+    --pink-light: #FFB3D9;
+    --pink-pale: #FFF0F8;
+    --pink-deep: #E91E8C;
+    --white: #FFFFFF;
+    --soft-white: #FFF9FC;
+    --text: #2D1B2E;
+    --text-muted: #9B7FA8;
+    --surface: #FFFFFF;
+    --surface2: #FFF0F8;
+    --border: #FFD6EC;
+    --shadow: rgba(255,110,180,0.15);
+    --gradient: linear-gradient(135deg, #FF6EB4, #FF9ECC, #FFB3D9);
+    --gradient2: linear-gradient(135deg, #FFB3D9 0%, #FFF0F8 100%);
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --nav-h: 70px;
+  }
+
+  [data-theme="dark"] {
+    --pink: #C77DFF;
+    --pink-light: #9B59B6;
+    --pink-pale: #1A0A2E;
+    --pink-deep: #E040FB;
+    --white: #0D0118;
+    --soft-white: #120020;
+    --text: #F0E6FF;
+    --text-muted: #9B7EC8;
+    --surface: #1A0A2E;
+    --surface2: #240D3D;
+    --border: #3D1A5C;
+    --shadow: rgba(199,125,255,0.2);
+    --gradient: linear-gradient(135deg, #6A0DAD, #9B59B6, #C77DFF);
+    --gradient2: linear-gradient(135deg, #1A0A2E 0%, #240D3D 50%, #0D3020 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--soft-white);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── SPLASH ── */
+  #splash {
+    position: fixed; inset: 0; z-index: 999;
+    background: var(--gradient);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; transition: opacity 0.5s;
+  }
+  #splash h1 { font-family: var(--font-display); font-size: 2.8rem; color: #fff; letter-spacing: 2px; }
+  #splash p { color: rgba(255,255,255,0.85); font-size: 1rem; }
+  #splash .sparkle { font-size: 3rem; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+  #splash.hidden { opacity: 0; pointer-events: none; }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px var(--shadow);
+  }
+  header h1 { font-family: var(--font-display); font-size: 1.5rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .icon-btn { background: var(--surface2); border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: transform 0.2s; }
+  .icon-btn:active { transform: scale(0.92); }
+
+  /* ── BOTTOM NAV ── */
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 10px;
+    box-shadow: 0 -4px 20px var(--shadow);
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    cursor: pointer; padding: 8px 12px; border-radius: var(--radius-sm);
+    transition: all 0.2s; flex: 1; border: none; background: none; color: var(--text-muted);
+  }
+  .nav-item.active { color: var(--pink); }
+  .nav-item .nav-icon { font-size: 1.4rem; }
+  .nav-item span { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; }
+  .nav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--pink); display: none; }
+  .nav-item.active .nav-dot { display: block; }
+
+  /* ── PAGES ── */
+  main { padding-bottom: calc(var(--nav-h) + 20px); min-height: 100vh; }
+  .page { display: none; padding: 20px; }
+  .page.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .card-title { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 4px; }
+  .card-sub { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 24px; border-radius: 50px; border: none; cursor: pointer;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn-primary { background: var(--gradient); color: #fff; box-shadow: 0 4px 15px var(--shadow); }
+  .btn-outline { background: transparent; border: 2px solid var(--pink); color: var(--pink); }
+  .btn-ghost { background: var(--surface2); color: var(--text); }
+  .btn-sm { padding: 8px 16px; font-size: 0.82rem; }
+  .btn-danger { background: linear-gradient(135deg,#FF6B6B,#FF4444); color:#fff; }
+  .btn-full { width: 100%; }
+
+  /* ── PAGE: HOME ── */
+  .home-hero {
+    background: var(--gradient);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .home-hero::after { content: '✨'; position: absolute; right: 20px; top: 20px; font-size: 3rem; opacity: 0.4; }
+  .home-hero h2 { font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 6px; }
+  .home-hero p { font-size: 0.88rem; opacity: 0.9; }
+  .home-affirmation {
+    background: var(--gradient2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.5;
+    position: relative;
+  }
+  .home-affirmation::before { content: '"'; font-size: 3rem; color: var(--pink); opacity: 0.3; position: absolute; top: 5px; left: 15px; font-family: Georgia, serif; }
+  .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .quick-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .quick-card:active { transform: scale(0.97); }
+  .quick-card .emoji { font-size: 1.8rem; margin-bottom: 6px; }
+  .quick-card p { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+
+  /* ── COUNTER ── */
+  .counter-display {
+    text-align: center;
+    padding: 30px 0;
+  }
+  .counter-number {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .counter-label { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 24px; }
+  .counter-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .counter-circle {
+    width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
+    font-size: 1.8rem; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; font-weight: 700;
+  }
+  .counter-plus { background: var(--gradient); color: #fff; box-shadow: 0 4px 15px var(--shadow); }
+  .counter-minus { background: var(--surface2); color: var(--text); border: 2px solid var(--border); }
+  .counter-plus:active { transform: scale(0.9); }
+  .counter-minus:active { transform: scale(0.9); }
+  .counter-list { margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+  .counter-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .counter-item.selected { border-color: var(--pink); box-shadow: 0 0 0 2px var(--pink-light); }
+  .counter-item-info h4 { font-size: 0.95rem; font-weight: 600; }
+  .counter-item-info p { font-size: 0.78rem; color: var(--text-muted); }
+  .counter-badge {
+    background: var(--gradient);
+    color: #fff;
+    border-radius: 50px;
+    padding: 4px 14px;
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+  .counter-history { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .history-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--pink); opacity: 0.3;
+  }
+  .history-dot.filled { opacity: 1; }
+
+  /* ── JOURNAL ── */
+  .journal-list { display: flex; flex-direction: column; gap: 12px; }
+  .journal-entry {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .journal-entry:active { transform: scale(0.99); }
+  .journal-entry-date { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+  .journal-entry-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+  .journal-entry-preview { font-size: 0.82rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .journal-entry-imgs { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .journal-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+
+  /* Journal Editor */
+  .editor-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--soft-white);
+    display: flex; flex-direction: column;
+    transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  }
+  .editor-overlay.open { transform: translateY(0); }
+  .editor-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+  }
+  .editor-header h3 { font-family: var(--font-display); font-size: 1.1rem; }
+  .editor-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .editor-input {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .editor-input:focus { border-color: var(--pink); }
+  textarea.editor-input { resize: none; min-height: 180px; line-height: 1.6; }
+  .img-upload-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .img-preview-wrap { position: relative; }
+  .img-preview { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; border: 2px solid var(--border); }
+  .img-del { position: absolute; top: -6px; right: -6px; background: #FF4444; color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .upload-btn-box {
+    width: 70px; height: 70px; border-radius: 10px;
+    border: 2px dashed var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-muted); font-size: 0.65rem; gap: 2px;
+    background: var(--surface2); transition: border-color 0.2s;
+  }
+  .upload-btn-box:hover { border-color: var(--pink); }
+  .upload-btn-box .plus { font-size: 1.4rem; line-height: 1; }
+  .mood-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mood-chip {
+    padding: 6px 14px; border-radius: 50px; border: 1.5px solid var(--border);
+    cursor: pointer; font-size: 0.82rem; background: var(--surface2);
+    transition: all 0.2s;
+  }
+  .mood-chip.selected { background: var(--gradient); color: #fff; border-color: transparent; }
+
+  /* ── AFFIRMATIONS ── */
+  .affirmation-list { display: flex; flex-direction: column; gap: 10px; }
+  .affirmation-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .affirmation-chip .aff-text { flex: 1; font-size: 0.92rem; line-height: 1.4; }
+  .aff-del { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 4px; }
+  .affirmation-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .affirmation-input-row input { flex: 1; }
+  .notify-settings {
+    background: var(--gradient2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .notify-settings h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .toggle-row label { font-size: 0.85rem; color: var(--text-muted); }
+  .toggle {
+    position: relative; width: 44px; height: 24px;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer; inset: 0;
+    background: var(--border); border-radius: 50px;
+    transition: 0.3s;
+  }
+  .slider:before {
+    content: ''; position: absolute;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; left: 3px; top: 3px; transition: 0.3s;
+  }
+  .toggle input:checked + .slider { background: var(--gradient); }
+  .toggle input:checked + .slider:before { transform: translateX(20px); }
+
+  /* ── SUBLIMINAL ── */
+  .subliminal-section { display: flex; flex-direction: column; gap: 14px; }
+  .audio-player-card {
+    background: var(--gradient2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+  .audio-player-card .track-name { font-family: var(--font-display); font-size: 1rem; margin-bottom: 4px; }
+  .audio-player-card .track-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; }
+  .audio-controls { display: flex; gap: 14px; justify-content: center; align-items: center; }
+  .play-btn {
+    width: 56px; height: 56px; border-radius: 50%; border: none;
+    background: var(--gradient); color: #fff; font-size: 1.4rem;
+    cursor: pointer; box-shadow: 0 4px 15px var(--shadow); transition: transform 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play-btn:active { transform: scale(0.9); }
+  .vol-ctrl { display: flex; align-items: center; gap: 8px; }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 4px;
+    background: var(--border); outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--pink); cursor: pointer;
+  }
+  .subliminal-msg-list { display: flex; flex-direction: column; gap: 8px; }
+  .sub-msg-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.88rem;
+  }
+  .sub-msg-item .sub-vol { font-size: 0.75rem; color: var(--text-muted); margin-left: auto; }
+  .sub-freq-chip {
+    padding: 4px 10px; border-radius: 50px;
+    background: var(--surface2); border: 1px solid var(--border);
+    font-size: 0.72rem; color: var(--text-muted);
+  }
+  .waveform {
+    height: 40px; display: flex; align-items: flex-end; gap: 2px;
+    justify-content: center; margin: 12px 0;
+  }
+  .waveform .bar {
+    width: 3px; border-radius: 3px; background: var(--pink);
+    opacity: 0.5;
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  @keyframes wave {
+    0%,100%{height:4px;opacity:0.3}
+    50%{opacity:1}
+  }
+  .waveform.playing .bar { animation-play-state: running; }
+  .waveform:not(.playing) .bar { animation-play-state: paused; }
+  .waveform .bar:nth-child(1){height:12px;animation-delay:0s}
+  .waveform .bar:nth-child(2){height:24px;animation-delay:0.1s}
+  .waveform .bar:nth-child(3){height:36px;animation-delay:0.2s}
+  .waveform .bar:nth-child(4){height:20px;animation-delay:0.3s}
+  .waveform .bar:nth-child(5){height:32px;animation-delay:0.4s}
+  .waveform .bar:nth-child(6){height:16px;animation-delay:0.5s}
+  .waveform .bar:nth-child(7){height:28px;animation-delay:0.6s}
+  .waveform .bar:nth-child(8){height:36px;animation-delay:0.7s}
+  .waveform .bar:nth-child(9){height:20px;animation-delay:0.8s}
+  .waveform .bar:nth-child(10){height:10px;animation-delay:0.9s}
+
+  /* ── FEFE AI ── */
+  .chat-container {
+    display: flex; flex-direction: column;
+    height: calc(100vh - 180px);
+  }
+  .chat-messages {
+    flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+    padding: 4px 0 16px;
+  }
+  .chat-msg { display: flex; gap: 10px; align-items: flex-end; }
+  .chat-msg.user { flex-direction: row-reverse; }
+  .chat-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+  .chat-bubble {
+    max-width: 78%; padding: 12px 16px; border-radius: 18px;
+    font-size: 0.88rem; line-height: 1.5;
+  }
+  .chat-msg.bot .chat-bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .chat-msg.user .chat-bubble { background: var(--gradient); color: #fff; border-bottom-right-radius: 4px; }
+  .chat-bubble img { max-width: 100%; border-radius: 10px; margin-top: 8px; }
+  .chat-input-row {
+    display: flex; gap: 8px; align-items: flex-end;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+  .chat-input-row textarea {
+    flex: 1; resize: none; min-height: 42px; max-height: 120px;
+    padding: 10px 14px; border-radius: 20px;
+    border: 1.5px solid var(--border); background: var(--surface);
+    font-family: var(--font-body); font-size: 0.9rem; color: var(--text); outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input-row textarea:focus { border-color: var(--pink); }
+  .chat-send-btn {
+    width: 42px; height: 42px; border-radius: 50%; border: none;
+    background: var(--gradient); color: #fff; font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px var(--shadow); transition: transform 0.15s; flex-shrink: 0;
+  }
+  .chat-send-btn:active { transform: scale(0.9); }
+  .typing-indicator { display: flex; gap: 4px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; border-bottom-left-radius: 4px; width: fit-content; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); animation: blink 1.4s infinite; }
+  .typing-dot:nth-child(2){animation-delay:0.2s}
+  .typing-dot:nth-child(3){animation-delay:0.4s}
+  @keyframes blink{0%,80%,100%{opacity:0}40%{opacity:1}}
+  .chat-img-preview { max-width: 120px; border-radius: 10px; margin-top: 4px; }
+  .chat-suggestion-row { display: flex; gap: 8px; flex-wrap: wrap; padding: 8px 0; }
+  .chat-suggestion {
+    padding: 6px 12px; border-radius: 50px;
+    border: 1.5px solid var(--pink); color: var(--pink);
+    background: transparent; font-size: 0.78rem; cursor: pointer;
+    transition: all 0.2s; font-family: var(--font-body);
+  }
+  .chat-suggestion:active { background: var(--pink); color: #fff; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 14px; margin-top: 4px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── MODAL ── */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: flex-end;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .modal-backdrop.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 24px 20px 36px;
+    width: 100%;
+    transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  }
+  .modal-backdrop.open .modal { transform: translateY(0); }
+  .modal-handle { width: 40px; height: 4px; border-radius: 4px; background: var(--border); margin: 0 auto 20px; }
+  .modal h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 16px; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: calc(var(--nav-h) + 16px); left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text); color: var(--white);
+    padding: 10px 20px; border-radius: 50px;
+    font-size: 0.85rem; z-index: 999;
+    opacity: 0; transition: all 0.3s; pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── EMPTY STATES ── */
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+  .empty-state p { font-size: 0.88rem; line-height: 1.5; }
+
+  /* ── OUTFIT INSPO GRID ── */
+  .outfit-section { display: flex; flex-direction: column; gap: 12px; }
+  .outfit-prompt-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .outfit-btn {
+    padding: 8px 14px; border-radius: 50px; border: 1.5px solid var(--border);
+    background: var(--surface2); font-size: 0.8rem; cursor: pointer;
+    font-family: var(--font-body); color: var(--text);
+    transition: all 0.2s;
+  }
+  .outfit-btn:active { border-color: var(--pink); color: var(--pink); }
+
+  /* ── PROGRESS RING ── */
+  .ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--border); }
+  .ring-fill { fill: none; stroke: url(#ringGrad); stroke-linecap: round; transition: stroke-dashoffset 0.5s; }
+  .ring-text { font-family: var(--font-display); font-size: 1rem; }
+
+  /* ── HABIT TRACKER ── */
+  .habit-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin: 12px 0; }
+  .habit-day {
+    aspect-ratio: 1; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 600; cursor: pointer;
+    border: 1.5px solid var(--border); background: var(--surface2);
+    transition: all 0.2s; color: var(--text-muted);
+  }
+  .habit-day.done { background: var(--gradient); color: #fff; border-color: transparent; }
+  .habit-day.today { border-color: var(--pink); }
+
+  /* Misc */
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { padding: 5px 12px; border-radius: 50px; background: var(--surface2); border: 1px solid var(--border); font-size: 0.78rem; }
+  .chip.pink { background: var(--pink-pale); border-color: var(--pink-light); color: var(--pink-deep); }
+  input[type="hidden"]{display:none}
+  select.editor-input { appearance: none; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  /* PWA install banner */
+  #install-banner {
+    position: fixed; top: 70px; left: 12px; right: 12px; z-index: 150;
+    background: var(--gradient);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: none;
+    align-items: center; gap: 10px;
+    color: #fff; font-size: 0.85rem;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  #install-banner.show { display: flex; }
+  #install-banner p { flex: 1; }
+
+  /* ── CHAT SESSIONS LIST ── */
+  .session-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .session-item:active { transform: scale(0.99); }
+  .session-item.active-session { border-color: var(--pink); background: var(--surface2); }
+  .session-item.active-session.delulu-active { border-color: #9B59B6; background: #2D0A4E22; }
+  .session-info { flex: 1; min-width: 0; }
+  .session-title { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .session-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+  .session-preview { font-size: 0.78rem; color: var(--text-muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .session-del { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 4px 6px; border-radius: 6px; flex-shrink: 0; }
+  .session-del:active { background: var(--surface2); }
+
+  /* ── STATS GRID ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 14px; }
+  .stat-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 8px; text-align: center; }
+  .stat-num { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-lbl { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── VISION BOARD OVERLAY ── */
+  .vision-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+
+  /* ── AFFIRMATION FLASH BAR ── */
+  #aff-flash {
+    position: fixed; top: 64px; left: 0; right: 0; z-index: 90;
+    background: var(--gradient);
+    color: #fff;
+    text-align: center;
+    padding: 8px 20px;
+    font-size: 0.82rem;
+    font-family: var(--font-display);
+    opacity: 0;
+    transition: opacity 1s;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --pink: #C77DFF;
+      --pink-light: #9B59B6;
+      --pink-pale: #1A0A2E;
+      --pink-deep: #E040FB;
+      --white: #0D0118;
+      --soft-white: #120020;
+      --text: #F0E6FF;
+      --text-muted: #9B7EC8;
+      --surface: #1A0A2E;
+      --surface2: #240D3D;
+      --border: #3D1A5C;
+      --shadow: rgba(199,125,255,0.2);
+      --gradient: linear-gradient(135deg, #6A0DAD, #9B59B6, #C77DFF);
+      --gradient2: linear-gradient(135deg, #1A0A2E 0%, #240D3D 50%, #0D3020 100%);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sparkle">🌸</div>
+  <h1>Lumina</h1>
+  <p>Your glow up companion ✨</p>
+</div>
+
+<!-- PWA INSTALL BANNER -->
+<div id="install-banner">
+  <span>📲</span>
+  <p>Add Lumina to your home screen for the full experience!</p>
+  <button class="btn btn-ghost btn-sm" id="install-btn" style="white-space:nowrap;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3)">Install</button>
+  <button onclick="document.getElementById('install-banner').classList.remove('show')" style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer">×</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <h1>✨ Lumina</h1>
+  <div class="header-actions">
+    <button class="icon-btn" id="theme-btn" title="Toggle theme">🌙</button>
+    <button class="icon-btn" onclick="showToast('Settings coming soon 🌸')">⚙️</button>
+  </div>
+</header>
+
+<!-- AFFIRMATION FLASH BAR -->
+<div id="aff-flash"></div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HOME PAGE -->
+  <div class="page active" id="page-home">
+    <div class="home-hero">
+      <h2 id="home-greeting">Good morning, queen 👑</h2>
+      <p id="home-date"></p>
+    </div>
+    <div class="home-affirmation" id="home-aff-display">
+      I am magnetic. Everything I desire flows to me with ease.
+    </div>
+    <div class="section-label">Quick Access</div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="switchPage('manifestation')">
+        <div class="emoji">🌙</div>
+        <p>Manifestation</p>
+      </div>
+      <div class="quick-card" onclick="switchPage('glowup')">
+        <div class="emoji">💅</div>
+        <p>Glow Up</p>
+      </div>
+      <div class="quick-card" onclick="switchPage('journal')">
+        <div class="emoji">📓</div>
+        <p>Journal</p>
+      </div>
+      <div class="quick-card" onclick="openVisionBoard()">
+        <div class="emoji">🖼️</div>
+        <p>Vision Board</p>
+      </div>
+    </div>
+    <div class="section-label">Today's Energy</div>
+    <div class="card">
+      <div class="card-title">🌙 Moon Phase Vibe</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.5" id="moon-text">Loading lunar energy...</p>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Your Streak</div>
+      <div class="card-sub">Days you've opened Lumina</div>
+      <div class="habit-days" id="streak-days"></div>
+    </div>
+  </div>
+
+  <!-- MANIFESTATION PAGE -->
+  <div class="page" id="page-manifestation">
+    <!-- Sub-nav -->
+    <div class="chip-row" style="margin-bottom:20px" id="manifest-tabs">
+      <div class="chip pink manifest-tab active" data-tab="counter-tab" onclick="switchManifestTab(this,'counter-tab')">🔢 Counter</div>
+      <div class="chip manifest-tab" data-tab="affirmations-tab" onclick="switchManifestTab(this,'affirmations-tab')">✨ Affirmations</div>
+      <div class="chip manifest-tab" data-tab="subliminal-tab" onclick="switchManifestTab(this,'subliminal-tab')">🎵 Subliminal</div>
+    </div>
+
+    <!-- COUNTER TAB -->
+    <div id="counter-tab">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div>
+            <div class="card-title" id="active-counter-name">Tapping Counter</div>
+            <div class="card-sub" id="active-counter-goal">Goal: 108 taps</div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="openNewCounter()">+ New</button>
+        </div>
+        <div class="counter-display">
+          <div class="counter-number" id="counter-display">0</div>
+          <div class="counter-label">taps today</div>
+          <div class="counter-btns">
+            <button class="counter-circle counter-minus" onclick="updateCounter(-1)">−</button>
+            <button class="counter-circle counter-plus" onclick="updateCounter(1)">+</button>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm btn-full" style="margin-top:12px" onclick="resetCounter()">Reset Today</button>
+        <div class="stats-grid" id="counter-stats-grid"></div>
+      </div>
+      <div class="section-label">Your Counters</div>
+      <div class="counter-list" id="counter-list"></div>
+    </div>
+
+    <!-- AFFIRMATIONS TAB -->
+    <div id="affirmations-tab" style="display:none">
+      <div class="notify-settings card">
+        <h4>🔔 Notification Settings</h4>
+        <div class="toggle-row">
+          <label>Flash affirmations throughout day</label>
+          <label class="toggle"><input type="checkbox" id="notif-toggle" onchange="toggleNotifications()"><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <label>Interval</label>
+          <select class="editor-input" id="notif-interval" style="width:auto;padding:4px 10px;font-size:0.82rem">
+            <option value="30">Every 30 min</option>
+            <option value="60" selected>Every hour</option>
+            <option value="120">Every 2 hours</option>
+            <option value="180">Every 3 hours</option>
+          </select>
+        </div>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">📱 Tap "Allow" when prompted to enable notifications</p>
+      </div>
+      <div class="affirmation-input-row">
+        <input type="text" class="editor-input" id="aff-input" placeholder="Write your affirmation...">
+        <button class="btn btn-primary btn-sm" onclick="addAffirmation()">Add</button>
+      </div>
+      <div class="affirmation-list" id="affirmation-list"></div>
+    </div>
+
+    <!-- SUBLIMINAL TAB -->
+    <div id="subliminal-tab" style="display:none">
+      <div class="subliminal-section">
+        <div class="card" style="text-align:center;padding:14px 16px">
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:12px">Upload your song (MP3/WAV) and layer hidden affirmations beneath it</p>
+          <label class="btn btn-outline btn-sm" style="display:inline-flex;cursor:pointer">
+            🎵 Choose Song
+            <input type="file" id="song-upload" accept="audio/*" style="display:none" onchange="handleSongUpload(event)">
+          </label>
+        </div>
+        <div class="audio-player-card" id="audio-player-card">
+          <div class="track-name" id="track-name">No song loaded</div>
+          <div class="track-sub" id="track-sublabel">Upload a song to begin</div>
+          <div class="waveform" id="waveform">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <div class="audio-controls">
+            <div class="vol-ctrl"><span>🎵</span><input type="range" id="song-vol" min="0" max="100" value="80" style="width:80px" onchange="updateSongVol()"><span style="font-size:0.75rem" id="song-vol-lbl">80%</span></div>
+            <button class="play-btn" id="main-play-btn" onclick="togglePlay()">▶</button>
+            <div class="vol-ctrl"><span>🔮</span><input type="range" id="sub-vol" min="0" max="100" value="15" style="width:80px" onchange="updateSubVol()"><span style="font-size:0.75rem" id="sub-vol-lbl">15%</span></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:0.72rem;color:var(--text-muted)">
+            <span>🎵 Song</span><span style="opacity:0.6;">◄ Drag sliders ►</span><span>🔮 Subliminal</span>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div class="card-title">Subliminal Messages</div>
+            <button class="btn btn-primary btn-sm" onclick="openAddSubliminal()">+ Add</button>
+          </div>
+          <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px">These affirmations play quietly under your song at low volume — your subconscious hears them all 🌙</p>
+          <div class="subliminal-msg-list" id="subliminal-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎚️ Subliminal Frequency</div>
+          <div class="card-sub">Choose the carrier frequency for deeper programming</div>
+          <div class="chip-row">
+            <div class="chip freq-chip active-freq" onclick="selectFreq(this,'binaural')" style="cursor:pointer">🧠 Binaural</div>
+            <div class="chip freq-chip" onclick="selectFreq(this,'theta')" style="cursor:pointer">🌊 Theta (4-8Hz)</div>
+            <div class="chip freq-chip" onclick="selectFreq(this,'alpha')" style="cursor:pointer">✨ Alpha (8-14Hz)</div>
+            <div class="chip freq-chip" onclick="selectFreq(this,'432hz')" style="cursor:pointer">💫 432Hz</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNAL PAGE -->
+  <div class="page" id="page-journal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <h2 style="font-family:var(--font-display);font-size:1.4rem">My Journal</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted)" id="journal-count">0 entries</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openJournalEditor()">✏️ Write</button>
+    </div>
+    <div class="chip-row" style="margin-bottom:16px">
+      <div class="chip pink" onclick="filterJournal('all')" id="jf-all" style="cursor:pointer">All</div>
+      <div class="chip" onclick="filterJournal('love')" id="jf-love" style="cursor:pointer">💕 Love</div>
+      <div class="chip" onclick="filterJournal('manifest')" id="jf-manifest" style="cursor:pointer">🌙 Manifest</div>
+      <div class="chip" onclick="filterJournal('glow')" id="jf-glow" style="cursor:pointer">💅 Glow</div>
+      <div class="chip" onclick="filterJournal('grateful')" id="jf-grateful" style="cursor:pointer">🙏 Grateful</div>
+    </div>
+    <div class="journal-list" id="journal-list">
+      <div class="empty-state">
+        <div class="empty-icon">📓</div>
+        <p>Your story starts here.<br>Write your first entry ✨</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOW UP PAGE -->
+  <div class="page" id="page-glowup">
+    <div class="chip-row" style="margin-bottom:20px">
+      <div class="chip pink glowup-tab active" onclick="switchGlowTab(this,'fefe-tab')" data-tab="fefe-tab">💅 Fefe</div>
+      <div class="chip glowup-tab" onclick="switchGlowTab(this,'delulu-tab')" data-tab="delulu-tab">🔮 Delulu</div>
+      <div class="chip glowup-tab" onclick="switchGlowTab(this,'outfit-tab')" data-tab="outfit-tab">👗 Outfits</div>
+    </div>
+
+    <!-- FEFE TAB -->
+    <div id="fefe-tab">
+      <!-- Fefe header bar -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:14px;background:var(--gradient2);border-radius:var(--radius-sm);border:1px solid var(--border)">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">💅</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:0.92rem">Fefe</div>
+          <div style="font-size:0.75rem;color:var(--text-muted)" id="fefe-session-title">New Chat</div>
+        </div>
+        <button class="icon-btn" onclick="openFefeSessions()" title="All chats">🗂️</button>
+        <button class="icon-btn" onclick="newFefeSession()" title="New chat">✏️</button>
+      </div>
+      <!-- Chat view -->
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-msg bot">
+            <div class="chat-avatar">💅</div>
+            <div class="chat-bubble">Hey babe! I'm Fefe, your personal glow up bestie! 💕 I can help you with skincare reviews, product recommendations, beauty tips, and anything glow-related. What are we working on today? ✨</div>
+          </div>
+        </div>
+        <div class="chat-suggestion-row">
+          <button class="chat-suggestion" onclick="sendSuggestion(this)">Review CeraVe Moisturizer</button>
+          <button class="chat-suggestion" onclick="sendSuggestion(this)">Best products for dark spots</button>
+          <button class="chat-suggestion" onclick="sendSuggestion(this)">My skincare routine</button>
+        </div>
+        <div class="chat-input-row">
+          <label style="cursor:pointer;font-size:1.2rem;color:var(--text-muted);padding:0 4px">
+            📸
+            <input type="file" id="chat-img-input" accept="image/*" style="display:none" onchange="handleChatImage(event)">
+          </label>
+          <textarea id="chat-input" placeholder="Ask Fefe anything..." rows="1" onkeydown="chatKeydown(event)" oninput="autoResize(this)"></textarea>
+          <button class="chat-send-btn" onclick="sendChat()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELULU TAB -->
+    <div id="delulu-tab" style="display:none">
+      <!-- Delulu header bar -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:14px;background:linear-gradient(135deg,#2D0A4E,#4A1080);border-radius:var(--radius-sm);border:1px solid #6A0DAD">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#9B59B6,#E040FB);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">🔮</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:0.92rem;color:#F0E6FF">Delulu</div>
+          <div style="font-size:0.75rem;color:#C77DFF" id="delulu-session-title">New Chat</div>
+        </div>
+        <button class="icon-btn" style="background:rgba(199,125,255,0.15)" onclick="openDeluluSessions()" title="All chats">🗂️</button>
+        <button class="icon-btn" style="background:rgba(199,125,255,0.15)" onclick="newDeluluSession()" title="New chat">✏️</button>
+      </div>
+      <div class="chat-container">
+        <div class="chat-messages" id="delulu-messages">
+          <div class="chat-msg bot">
+            <div class="chat-avatar" style="background:linear-gradient(135deg,#9B59B6,#E040FB)">🔮</div>
+            <div class="chat-bubble" style="background:linear-gradient(135deg,#2D0A4E,#1A0A2E);border-color:#6A0DAD;color:#F0E6FF">Hey! Okay so here's the thing — whatever you want, it's already yours. That's just how this works. You decide, you assume it's done, you stop looking for proof, and it shows up. Simple. So what are we working on? 🔮</div>
+          </div>
+        </div>
+        <div class="chat-suggestion-row">
+          <button class="chat-suggestion" style="border-color:#9B59B6;color:#C77DFF" onclick="sendDeluluSuggestion(this)">My SP isn't texting back</button>
+          <button class="chat-suggestion" style="border-color:#9B59B6;color:#C77DFF" onclick="sendDeluluSuggestion(this)">I keep doubting myself</button>
+          <button class="chat-suggestion" style="border-color:#9B59B6;color:#C77DFF" onclick="sendDeluluSuggestion(this)">How do I stop checking the 3D</button>
+          <button class="chat-suggestion" style="border-color:#9B59B6;color:#C77DFF" onclick="sendDeluluSuggestion(this)">I want to manifest my dream life</button>
+        </div>
+        <div class="chat-input-row">
+          <textarea id="delulu-input" placeholder="Tell Delulu what you're manifesting..." rows="1" onkeydown="deluluKeydown(event)" oninput="autoResize(this)" style="border-color:#6A0DAD"></textarea>
+          <button class="chat-send-btn" style="background:linear-gradient(135deg,#9B59B6,#E040FB)" onclick="sendDelulu()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTFIT TAB -->
+    <div id="outfit-tab" style="display:none">
+      <div class="outfit-section">
+        <div class="card">
+          <div class="card-title">👗 Get Outfit Ideas</div>
+          <div class="card-sub">Tell Fefe the vibe, occasion, or aesthetic you want</div>
+          <div class="outfit-prompt-btns" style="margin-bottom:14px">
+            <button class="outfit-btn" onclick="sendOutfitPrompt('Uni first day fit, clean girl aesthetic')">🎓 First Day Uni</button>
+            <button class="outfit-btn" onclick="sendOutfitPrompt('Date night outfit, romantic feminine')">💕 Date Night</button>
+            <button class="outfit-btn" onclick="sendOutfitPrompt('Cute but casual everyday look')">☀️ Everyday Cute</button>
+            <button class="outfit-btn" onclick="sendOutfitPrompt('Going out glam, night out look')">✨ Night Out</button>
+            <button class="outfit-btn" onclick="sendOutfitPrompt('Quiet luxury aesthetic outfit ideas')">💎 Quiet Luxury</button>
+            <button class="outfit-btn" onclick="sendOutfitPrompt('Comfy girl aesthetic, cozy vibes')">🧸 Comfy Cozy</button>
+          </div>
+          <div style="display:flex;gap:8px">
+            <input type="text" class="editor-input" id="outfit-custom" placeholder="Describe your vibe...">
+            <button class="btn btn-primary btn-sm" onclick="sendCustomOutfit()">Go</button>
+          </div>
+        </div>
+        <div id="outfit-response" style="display:none" class="card">
+          <div class="card-title">✨ Fefe's Picks</div>
+          <div id="outfit-content" style="font-size:0.88rem;line-height:1.6;color:var(--text)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav>
+  <button class="nav-item active" onclick="switchPage('home')" id="nav-home">
+    <span class="nav-icon">🏠</span>
+    <span>Home</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="switchPage('manifestation')" id="nav-manifestation">
+    <span class="nav-icon">🌙</span>
+    <span>Manifest</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="switchPage('journal')" id="nav-journal">
+    <span class="nav-icon">📓</span>
+    <span>Journal</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="switchPage('glowup')" id="nav-glowup">
+    <span class="nav-icon">💅</span>
+    <span>Glow Up</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" onclick="switchPage('counter')" id="nav-counter" style="display:none"></button>
+</nav>
+
+<!-- JOURNAL EDITOR OVERLAY -->
+<div class="editor-overlay" id="journal-editor">
+  <div class="editor-header">
+    <button class="icon-btn" onclick="closeJournalEditor()">←</button>
+    <h3 id="editor-mode-title">New Entry</h3>
+    <button class="btn btn-primary btn-sm" onclick="saveJournalEntry()">Save</button>
+  </div>
+  <div class="editor-body">
+    <input type="hidden" id="edit-entry-id">
+    <input type="text" class="editor-input" id="journal-title-input" placeholder="Entry title (optional)">
+    <div>
+      <div class="card-sub" style="margin-bottom:8px">How are you feeling?</div>
+      <div class="mood-row" id="mood-row">
+        <div class="mood-chip" onclick="selectMood(this)">😊 Happy</div>
+        <div class="mood-chip" onclick="selectMood(this)">🌙 Reflective</div>
+        <div class="mood-chip" onclick="selectMood(this)">💕 Grateful</div>
+        <div class="mood-chip" onclick="selectMood(this)">✨ Manifesting</div>
+        <div class="mood-chip" onclick="selectMood(this)">😤 Venting</div>
+        <div class="mood-chip" onclick="selectMood(this)">💭 Dreaming</div>
+      </div>
+    </div>
+    <div>
+      <div class="card-sub" style="margin-bottom:8px">Category</div>
+      <select class="editor-input" id="journal-category">
+        <option value="">No category</option>
+        <option value="love">💕 Love</option>
+        <option value="manifest">🌙 Manifest</option>
+        <option value="glow">💅 Glow</option>
+        <option value="grateful">🙏 Grateful</option>
+      </select>
+    </div>
+    <textarea class="editor-input" id="journal-body-input" placeholder="Pour your heart out here... 💕" rows="8"></textarea>
+    <div>
+      <div class="card-sub" style="margin-bottom:8px">📸 Add pictures</div>
+      <div class="img-upload-row" id="img-upload-row">
+        <label class="upload-btn-box">
+          <span class="plus">+</span>
+          <span>Photo</span>
+          <input type="file" accept="image/*" style="display:none" onchange="addJournalImage(event)" multiple>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESET CONFIRM MODAL -->
+<div class="modal-backdrop" id="reset-confirm-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:2.5rem;margin-bottom:10px">🔄</div>
+      <h3 style="margin-bottom:8px">Reset Counter?</h3>
+      <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.5">This will clear today's count back to zero. Your history from previous days stays safe 💕</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-danger btn-full" onclick="confirmReset()">Yes, reset today</button>
+      <button class="btn btn-ghost btn-full" onclick="closeModal('reset-confirm-modal')">No, keep my progress</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW COUNTER MODAL -->
+<div class="modal-backdrop" id="counter-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>New Counter</h3>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input type="text" class="editor-input" id="new-counter-name" placeholder="Counter name (e.g. Gratitude taps, 369 method)">
+      <input type="number" class="editor-input" id="new-counter-goal" placeholder="Daily goal (e.g. 108)" min="1">
+      <select class="editor-input" id="new-counter-emoji">
+        <option value="🌙">🌙 Manifestation</option>
+        <option value="✨">✨ Affirmation</option>
+        <option value="🔮">🔮 Ritual</option>
+        <option value="💕">💕 Love</option>
+        <option value="🙏">🙏 Gratitude</option>
+        <option value="💫">💫 Custom</option>
+      </select>
+      <button class="btn btn-primary btn-full" onclick="saveNewCounter()">Create Counter</button>
+      <button class="btn btn-ghost btn-full" onclick="closeModal('counter-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SUBLIMINAL MODAL -->
+<div class="modal-backdrop" id="subliminal-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>Add Subliminal Message</h3>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <input type="text" class="editor-input" id="new-sub-msg" placeholder="e.g. I am deeply loved and cherished">
+      <div>
+        <div class="card-sub" style="margin-bottom:8px">Repeat speed</div>
+        <select class="editor-input" id="sub-repeat">
+          <option value="slow">Slow (every 30s)</option>
+          <option value="medium" selected>Medium (every 15s)</option>
+          <option value="fast">Fast (every 8s)</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="saveSubliminal()">Add Message</button>
+      <button class="btn btn-ghost btn-full" onclick="closeModal('subliminal-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- VIEW JOURNAL ENTRY OVERLAY -->
+<div class="editor-overlay" id="journal-viewer">
+  <div class="editor-header">
+    <button class="icon-btn" onclick="closeOverlay('journal-viewer')">←</button>
+    <h3>Journal Entry</h3>
+    <button class="icon-btn" id="edit-entry-btn" onclick="editCurrentEntry()">✏️</button>
+  </div>
+  <div class="editor-body" id="viewer-body"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let state = {
+  counters: [],
+  activeCounterIndex: 0,
+  journalEntries: [],
+  affirmations: [],
+  subliminals: [],
+  // legacy — kept for migration
+  chatHistory: [],
+  // new multi-session chat
+  fefeSessions: [],      // [{id, title, date, messages:[{role,content,image}]}]
+  activeFefeId: null,
+  deluluSessions: [],
+  activeDeluluId: null,
+  notifEnabled: false,
+  notifInterval: 60,
+  selectedFreq: 'binaural',
+  streak: [],
+  currentJournalFilter: 'all',
+  editingEntryId: null,
+  journalImages: [],
+  chatPendingImage: null,
+  audioCtx: null,
+  songBuffer: null,
+  songSource: null,
+  subSource: null,
+  gainSong: null,
+  gainSub: null,
+  isPlaying: false,
+  subMessages: [],
+  subInterval: null,
+  speechSynth: window.speechSynthesis || null,
+  deferredInstall: null,
+};
+
+const STORAGE_KEY = 'lumina_v1';
+
+function save() {
+  try {
+    const toSave = {
+      counters: state.counters,
+      activeCounterIndex: state.activeCounterIndex,
+      journalEntries: state.journalEntries,
+      affirmations: state.affirmations,
+      subliminals: state.subliminals,
+      fefeSessions: state.fefeSessions,
+      activeFefeId: state.activeFefeId,
+      deluluSessions: state.deluluSessions,
+      activeDeluluId: state.activeDeluluId,
+      notifEnabled: state.notifEnabled,
+      notifInterval: state.notifInterval,
+      selectedFreq: state.selectedFreq,
+      streak: state.streak,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch(e) { console.warn('Save failed',e); }
+}
+
+function load() {
+  try {
+    const d = localStorage.getItem(STORAGE_KEY);
+    if (d) {
+      const parsed = JSON.parse(d);
+      Object.assign(state, parsed);
+    }
+  } catch(e) { console.warn('Load failed',e); }
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+window.addEventListener('load', () => {
+  load();
+  initDefaults();
+  renderAll();
+  updateHomeGreeting();
+  updateStreak();
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hidden');
+  }, 2000);
+  setMoonPhase();
+  if (state.notifEnabled) scheduleNotifications();
+});
+
+function initDefaults() {
+  if (!state.counters.length) {
+    state.counters = [
+      { id: uid(), name: '369 Method', goal: 369, emoji: '🌙', counts: {}, color: 'pink' },
+      { id: uid(), name: 'Gratitude Taps', goal: 108, emoji: '🙏', counts: {}, color: 'purple' },
+    ];
+  }
+  if (!state.affirmations.length) {
+    state.affirmations = [
+      { id: uid(), text: 'I am magnetic. What is mine comes to me.' },
+      { id: uid(), text: 'I radiate confidence, beauty, and grace.' },
+      { id: uid(), text: 'My glow up is already in progress.' },
+      { id: uid(), text: 'I attract love effortlessly and naturally.' },
+    ];
+  }
+  if (!state.subliminals.length) {
+    state.subliminals = [
+      { id: uid(), text: 'I am deeply loved', speed: 'medium' },
+      { id: uid(), text: 'I attract my perfect partner', speed: 'medium' },
+    ];
+  }
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pageMap = { home:'page-home', manifestation:'page-manifestation', journal:'page-journal', glowup:'page-glowup', counter:'page-manifestation' };
+  const navMap = { home:'nav-home', manifestation:'nav-manifestation', journal:'nav-journal', glowup:'nav-glowup', counter:'nav-manifestation' };
+  document.getElementById(pageMap[name] || 'page-home').classList.add('active');
+  const navEl = document.getElementById(navMap[name] || 'nav-home');
+  if (navEl) navEl.classList.add('active');
+  if (name === 'counter') switchManifestTab(document.querySelector('.manifest-tab[data-tab="counter-tab"]'), 'counter-tab');
+  window.scrollTo(0,0);
+}
+
+function switchManifestTab(el, tab) {
+  document.querySelectorAll('.manifest-tab').forEach(t => t.classList.remove('pink'));
+  if (el) el.classList.add('pink');
+  ['counter-tab','affirmations-tab','subliminal-tab'].forEach(t => {
+    document.getElementById(t).style.display = t === tab ? 'block' : 'none';
+  });
+}
+
+function switchGlowTab(el, tab) {
+  document.querySelectorAll('.glowup-tab').forEach(t => t.classList.remove('pink'));
+  if (el) el.classList.add('pink');
+  ['fefe-tab','delulu-tab','outfit-tab'].forEach(t => {
+    document.getElementById(t).style.display = t === tab ? 'block' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════════
+// HOME
+// ═══════════════════════════════════════════════
+function updateHomeGreeting() {
+  const h = new Date().getHours();
+  const greetings = {
+    morning: ['Good morning, queen 👑','Rise and manifest, beauty 🌸','Morning glow ✨'],
+    afternoon: ['Good afternoon, goddess 💕','Hey gorgeous 🌸','Slaying the afternoon 💅'],
+    evening: ['Good evening, queen 🌙','Night vibes incoming ✨','Evening manifestation time 🔮'],
+  };
+  const tod = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  const list = greetings[tod];
+  document.getElementById('home-greeting').textContent = list[Math.floor(Math.random()*list.length)];
+  document.getElementById('home-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const affs = state.affirmations;
+  if (affs.length) {
+    const aff = affs[Math.floor(Math.random()*affs.length)];
+    document.getElementById('home-aff-display').textContent = aff.text;
+  }
+}
+
+function setMoonPhase() {
+  const phases = [
+    { phase: '🌑 New Moon', desc: 'Set powerful intentions today. The universe is listening. Write down exactly what you want to call in.' },
+    { phase: '🌒 Waxing Crescent', desc: 'Your desires are building momentum. Take inspired action. Visualise your goals becoming real.' },
+    { phase: '🌓 First Quarter', desc: 'Push through resistance. Any challenges today are signs you\'re growing into your manifestation.' },
+    { phase: '🌔 Waxing Gibbous', desc: 'Refine and trust. You\'re so close. Stay consistent with your affirmations and rituals.' },
+    { phase: '🌕 Full Moon', desc: 'Peak manifestation energy! Charge your crystals, release what no longer serves you, celebrate wins.' },
+    { phase: '🌖 Waning Gibbous', desc: 'Express gratitude. Share your light. What you give out returns magnified.' },
+    { phase: '🌗 Last Quarter', desc: 'Release and forgive. Let go of limiting beliefs that are blocking your abundance.' },
+    { phase: '🌘 Waning Crescent', desc: 'Rest and reset. Prepare for the new cycle. Trust the process — it\'s all working out.' },
+  ];
+  const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0)) / 86400000);
+  const phase = phases[Math.floor((dayOfYear % 29.5) / 29.5 * 8)];
+  document.getElementById('moon-text').innerHTML = `<strong>${phase.phase}</strong><br><span style="margin-top:6px;display:block">${phase.desc}</span>`;
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  if (!state.streak.includes(today)) {
+    state.streak.push(today);
+    save();
+  }
+  const days = ['S','M','T','W','T','F','S'];
+  const container = document.getElementById('streak-days');
+  if (!container) return;
+  container.innerHTML = '';
+  const now = new Date();
+  for (let i=6; i>=0; i--) {
+    const d = new Date(now); d.setDate(d.getDate()-i);
+    const ds = d.toDateString();
+    const div = document.createElement('div');
+    div.className = 'habit-day' + (state.streak.includes(ds) ? ' done' : '') + (i===0?' today':'');
+    div.textContent = days[d.getDay()];
+    container.appendChild(div);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// COUNTER
+// ═══════════════════════════════════════════════
+function getTodayKey() { return new Date().toISOString().slice(0,10); }
+
+function renderCounters() {
+  const list = document.getElementById('counter-list');
+  if (!list) return;
+  list.innerHTML = '';
+  state.counters.forEach((c,i) => {
+    const today = getTodayKey();
+    const count = (c.counts[today]||0);
+    const pct = Math.min(100, Math.round(count/c.goal*100));
+    const div = document.createElement('div');
+    div.className = 'counter-item' + (i===state.activeCounterIndex?' selected':'');
+    div.onclick = () => { state.activeCounterIndex = i; save(); renderAll(); };
+    div.innerHTML = `
+      <div class="counter-item-info">
+        <h4>${c.emoji} ${c.name}</h4>
+        <p>${count}/${c.goal} (${pct}%)</p>
+      </div>
+      <span class="counter-badge">${count}</span>
+    `;
+    list.appendChild(div);
+  });
+  // Update active display
+  const ac = state.counters[state.activeCounterIndex];
+  if (ac) {
+    const today = getTodayKey();
+    document.getElementById('counter-display').textContent = (ac.counts[today]||0);
+    document.getElementById('active-counter-name').textContent = `${ac.emoji} ${ac.name}`;
+    document.getElementById('active-counter-goal').textContent = `Goal: ${ac.goal} taps`;
+  }
+}
+
+function updateCounter(delta) {
+  const today = getTodayKey();
+  const ac = state.counters[state.activeCounterIndex];
+  if (!ac) return;
+  if (!ac.counts[today]) ac.counts[today] = 0;
+  ac.counts[today] = Math.max(0, ac.counts[today]+delta);
+  if (delta > 0 && ac.counts[today] === ac.goal) showToast(`🎉 Goal reached! ${ac.name} complete!`);
+  save(); renderCounters();
+  document.getElementById('counter-display').style.transform='scale(1.1)';
+  setTimeout(()=>{ document.getElementById('counter-display').style.transform='scale(1)'; },150);
+}
+
+function resetCounter() {
+  openModal('reset-confirm-modal');
+}
+
+function confirmReset() {
+  const today = getTodayKey();
+  const ac = state.counters[state.activeCounterIndex];
+  if (ac) { ac.counts[today] = 0; save(); renderCounters(); renderCounterStats(); }
+  closeModal('reset-confirm-modal');
+  showToast('Counter reset 🌸');
+}
+
+function openNewCounter() { openModal('counter-modal'); }
+
+function saveNewCounter() {
+  const name = document.getElementById('new-counter-name').value.trim();
+  const goal = parseInt(document.getElementById('new-counter-goal').value)||108;
+  const emoji = document.getElementById('new-counter-emoji').value;
+  if (!name) { showToast('Please enter a counter name'); return; }
+  state.counters.push({ id:uid(), name, goal, emoji, counts:{} });
+  closeModal('counter-modal');
+  save(); renderCounters();
+  showToast('Counter created ✨');
+}
+
+// ═══════════════════════════════════════════════
+// JOURNAL
+// ═══════════════════════════════════════════════
+function renderJournal() {
+  const list = document.getElementById('journal-list');
+  if (!list) return;
+  let entries = [...state.journalEntries].reverse();
+  if (state.currentJournalFilter !== 'all') {
+    entries = entries.filter(e => e.category === state.currentJournalFilter);
+  }
+  const count = document.getElementById('journal-count');
+  if (count) count.textContent = `${state.journalEntries.length} ${state.journalEntries.length===1?'entry':'entries'}`;
+  if (!entries.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📓</div><p>No entries yet.<br>Write your first one ✨</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  entries.forEach(entry => {
+    const div = document.createElement('div');
+    div.className = 'journal-entry';
+    div.onclick = () => viewJournalEntry(entry.id);
+    const date = new Date(entry.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    const moodEmoji = entry.mood ? entry.mood.split(' ')[0] : '';
+    div.innerHTML = `
+      <div class="journal-entry-date">${date} ${moodEmoji}</div>
+      <div class="journal-entry-title">${entry.title||'Untitled Entry'}</div>
+      <div class="journal-entry-preview">${entry.body||''}</div>
+      ${entry.images&&entry.images.length?`<div class="journal-entry-imgs">${entry.images.slice(0,3).map(i=>`<img class="journal-thumb" src="${i}" alt="">`).join('')}</div>`:''}
+    `;
+    list.appendChild(div);
+  });
+}
+
+function filterJournal(cat) {
+  state.currentJournalFilter = cat;
+  document.querySelectorAll('[id^="jf-"]').forEach(el => el.classList.remove('pink'));
+  const el = document.getElementById('jf-'+cat);
+  if (el) el.classList.add('pink');
+  renderJournal();
+}
+
+function openJournalEditor(entryId = null) {
+  state.journalImages = [];
+  state.editingEntryId = null;
+  document.getElementById('edit-entry-id').value = '';
+  document.getElementById('journal-title-input').value = '';
+  document.getElementById('journal-body-input').value = '';
+  document.getElementById('journal-category').value = '';
+  document.querySelectorAll('.mood-chip').forEach(c=>c.classList.remove('selected'));
+  resetImgRow();
+  document.getElementById('editor-mode-title').textContent = 'New Entry';
+  if (entryId) {
+    const entry = state.journalEntries.find(e=>e.id===entryId);
+    if (entry) {
+      state.editingEntryId = entryId;
+      document.getElementById('edit-entry-id').value = entryId;
+      document.getElementById('journal-title-input').value = entry.title||'';
+      document.getElementById('journal-body-input').value = entry.body||'';
+      document.getElementById('journal-category').value = entry.category||'';
+      if (entry.mood) {
+        document.querySelectorAll('.mood-chip').forEach(c=>{if(c.textContent===entry.mood)c.classList.add('selected');});
+      }
+      state.journalImages = entry.images ? [...entry.images] : [];
+      renderImgRow();
+      document.getElementById('editor-mode-title').textContent = 'Edit Entry';
+    }
+  }
+  document.getElementById('journal-editor').classList.add('open');
+}
+
+function closeJournalEditor() { document.getElementById('journal-editor').classList.remove('open'); }
+
+function resetImgRow() {
+  const row = document.getElementById('img-upload-row');
+  row.innerHTML = `<label class="upload-btn-box"><span class="plus">+</span><span>Photo</span><input type="file" accept="image/*" style="display:none" onchange="addJournalImage(event)" multiple></label>`;
+}
+
+function renderImgRow() {
+  const row = document.getElementById('img-upload-row');
+  row.innerHTML = '';
+  state.journalImages.forEach((src, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'img-preview-wrap';
+    wrap.innerHTML = `<img class="img-preview" src="${src}"><button class="img-del" onclick="removeJournalImage(${i})">×</button>`;
+    row.appendChild(wrap);
+  });
+  const add = document.createElement('label');
+  add.className = 'upload-btn-box';
+  add.innerHTML = '<span class="plus">+</span><span>Photo</span><input type="file" accept="image/*" style="display:none" multiple>';
+  add.querySelector('input').addEventListener('change', addJournalImage);
+  row.appendChild(add);
+}
+
+function addJournalImage(event) {
+  const files = event.target.files;
+  if (!files.length) return;
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      state.journalImages.push(e.target.result);
+      renderImgRow();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function removeJournalImage(i) { state.journalImages.splice(i,1); renderImgRow(); }
+
+function selectMood(el) { document.querySelectorAll('.mood-chip').forEach(c=>c.classList.remove('selected')); el.classList.add('selected'); }
+
+function saveJournalEntry() {
+  const title = document.getElementById('journal-title-input').value.trim();
+  const body = document.getElementById('journal-body-input').value.trim();
+  const category = document.getElementById('journal-category').value;
+  const mood = document.querySelector('.mood-chip.selected')?.textContent || '';
+  if (!body && !title) { showToast('Write something first 💕'); return; }
+  if (state.editingEntryId) {
+    const idx = state.journalEntries.findIndex(e=>e.id===state.editingEntryId);
+    if (idx > -1) {
+      state.journalEntries[idx] = { ...state.journalEntries[idx], title, body, category, mood, images: [...state.journalImages], edited: Date.now() };
+    }
+    showToast('Entry updated ✨');
+  } else {
+    state.journalEntries.push({ id: uid(), date: Date.now(), title, body, category, mood, images: [...state.journalImages] });
+    showToast('Entry saved 💕');
+  }
+  save(); closeJournalEditor(); renderJournal();
+}
+
+function viewJournalEntry(id) {
+  const entry = state.journalEntries.find(e=>e.id===id);
+  if (!entry) return;
+  const date = new Date(entry.date).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('edit-entry-btn').onclick = () => { closeOverlay('journal-viewer'); openJournalEditor(id); };
+  const body = document.getElementById('viewer-body');
+  body.innerHTML = `
+    <div style="color:var(--text-muted);font-size:0.8rem;margin-bottom:8px">${date}</div>
+    ${entry.mood?`<div class="chip pink" style="display:inline-block;margin-bottom:12px">${entry.mood}</div>`:''}
+    <h2 style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:16px">${entry.title||'Untitled Entry'}</h2>
+    <p style="font-size:0.92rem;line-height:1.7;white-space:pre-wrap">${entry.body||''}</p>
+    ${entry.images&&entry.images.length?`
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+        ${entry.images.map(i=>`<img src="${i}" style="width:100%;border-radius:12px;object-fit:cover">`).join('')}
+      </div>
+    `:''}
+    <div style="margin-top:20px;display:flex;gap:10px">
+      <button class="btn btn-outline btn-sm" onclick="deleteJournalEntry('${id}')">🗑️ Delete</button>
+    </div>
+  `;
+  document.getElementById('journal-viewer').classList.add('open');
+}
+
+function editCurrentEntry() {}
+
+function deleteJournalEntry(id) {
+  if (!confirm('Delete this entry?')) return;
+  state.journalEntries = state.journalEntries.filter(e=>e.id!==id);
+  save(); closeOverlay('journal-viewer'); renderJournal();
+  showToast('Entry deleted');
+}
+
+function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
+
+// ═══════════════════════════════════════════════
+// AFFIRMATIONS
+// ═══════════════════════════════════════════════
+function renderAffirmations() {
+  const list = document.getElementById('affirmation-list');
+  if (!list) return;
+  if (!state.affirmations.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">✨</div><p>Add your first affirmation</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  state.affirmations.forEach((a,i) => {
+    const div = document.createElement('div');
+    div.className = 'affirmation-chip';
+    div.innerHTML = `<span style="font-size:1.1rem">✨</span><span class="aff-text">${a.text}</span><button class="aff-del" onclick="deleteAffirmation(${i})">×</button>`;
+    list.appendChild(div);
+  });
+}
+
+function addAffirmation() {
+  const input = document.getElementById('aff-input');
+  const text = input.value.trim();
+  if (!text) { showToast('Type an affirmation first 💕'); return; }
+  state.affirmations.push({ id: uid(), text });
+  input.value = '';
+  save(); renderAffirmations();
+  showToast('Affirmation added ✨');
+}
+
+function deleteAffirmation(i) {
+  state.affirmations.splice(i,1);
+  save(); renderAffirmations();
+}
+
+function toggleNotifications() {
+  const enabled = document.getElementById('notif-toggle').checked;
+  state.notifEnabled = enabled;
+  save();
+  if (enabled) {
+    if ('Notification' in window) {
+      Notification.requestPermission().then(p => {
+        if (p === 'granted') { scheduleNotifications(); showToast('Notifications on! ✨'); }
+        else { document.getElementById('notif-toggle').checked = false; state.notifEnabled = false; showToast('Please allow notifications'); }
+      });
+    } else { showToast('Notifications not supported in this browser'); }
+  } else {
+    if (state.notifTimer) clearInterval(state.notifTimer);
+    showToast('Notifications off');
+  }
+}
+
+function scheduleNotifications() {
+  if (state.notifTimer) clearInterval(state.notifTimer);
+  const interval = (state.notifInterval||60) * 60 * 1000;
+  state.notifTimer = setInterval(() => {
+    if (!state.affirmations.length) return;
+    const aff = state.affirmations[Math.floor(Math.random()*state.affirmations.length)];
+    if (Notification.permission === 'granted') {
+      new Notification('✨ Lumina', { body: aff.text, icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">✨</text></svg>' });
+    }
+  }, interval);
+}
+
+// ═══════════════════════════════════════════════
+// SUBLIMINAL AUDIO
+// ═══════════════════════════════════════════════
+function renderSubliminals() {
+  const list = document.getElementById('subliminal-list');
+  if (!list) return;
+  if (!state.subliminals.length) {
+    list.innerHTML = '<div class="empty-state" style="padding:20px"><div class="empty-icon">🔮</div><p>Add subliminal messages to layer under your music</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  state.subliminals.forEach((s,i) => {
+    const div = document.createElement('div');
+    div.className = 'sub-msg-item';
+    div.innerHTML = `<span>🔮</span><span style="flex:1">${s.text}</span><span class="sub-vol">${s.speed}</span><button style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.9rem" onclick="deleteSubliminal(${i})">×</button>`;
+    list.appendChild(div);
+  });
+}
+
+function openAddSubliminal() { openModal('subliminal-modal'); }
+
+function saveSubliminal() {
+  const text = document.getElementById('new-sub-msg').value.trim();
+  const speed = document.getElementById('sub-repeat').value;
+  if (!text) { showToast('Enter a message first'); return; }
+  state.subliminals.push({ id: uid(), text, speed });
+  document.getElementById('new-sub-msg').value = '';
+  closeModal('subliminal-modal');
+  save(); renderSubliminals();
+  showToast('Subliminal added 🔮');
+}
+
+function deleteSubliminal(i) { state.subliminals.splice(i,1); save(); renderSubliminals(); }
+
+function selectFreq(el, freq) {
+  document.querySelectorAll('.freq-chip').forEach(c=>c.classList.remove('active-freq','pink'));
+  el.classList.add('active-freq','pink');
+  state.selectedFreq = freq;
+  save();
+  showToast(`${freq.toUpperCase()} frequency selected 🎵`);
+}
+
+async function handleSongUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  document.getElementById('track-name').textContent = file.name.replace(/\.[^/.]+$/,'');
+  document.getElementById('track-sublabel').textContent = 'Ready to play with subliminal messages';
+  showToast('Song loaded! 🎵');
+
+  try {
+    if (!state.audioCtx) state.audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const buf = await file.arrayBuffer();
+    state.songBuffer = await state.audioCtx.decodeAudioData(buf);
+    if (!state.gainSong) {
+      state.gainSong = state.audioCtx.createGain();
+      state.gainSub = state.audioCtx.createGain();
+      state.gainSong.connect(state.audioCtx.destination);
+      state.gainSub.connect(state.audioCtx.destination);
+    }
+    state.gainSong.gain.value = 0.8;
+    state.gainSub.gain.value = 0.15;
+  } catch(e) { showToast('Audio processing ready 🎵'); }
+}
+
+function togglePlay() {
+  const btn = document.getElementById('main-play-btn');
+  const waveform = document.getElementById('waveform');
+  if (!state.songBuffer && !state.isPlaying) { showToast('Upload a song first 🎵'); return; }
+  if (state.isPlaying) {
+    stopAudio();
+    btn.textContent = '▶';
+    waveform.classList.remove('playing');
+    state.isPlaying = false;
+    if (state.subInterval) clearInterval(state.subInterval);
+  } else {
+    playAudio();
+    btn.textContent = '⏸';
+    waveform.classList.add('playing');
+    state.isPlaying = true;
+    startSubliminalLoop();
+  }
+}
+
+function playAudio() {
+  if (!state.audioCtx || !state.songBuffer) return;
+  try {
+    if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
+    state.songSource = state.audioCtx.createBufferSource();
+    state.songSource.buffer = state.songBuffer;
+    state.songSource.loop = true;
+    state.songSource.connect(state.gainSong);
+    state.songSource.start();
+    state.songSource.onended = () => { if (state.isPlaying) playAudio(); };
+  } catch(e) {}
+}
+
+function stopAudio() {
+  try { if (state.songSource) { state.songSource.onended = null; state.songSource.stop(); state.songSource = null; } } catch(e) {}
+}
+
+function updateSongVol() {
+  const v = document.getElementById('song-vol').value;
+  document.getElementById('song-vol-lbl').textContent = v+'%';
+  if (state.gainSong) state.gainSong.gain.value = v/100;
+}
+
+function updateSubVol() {
+  const v = document.getElementById('sub-vol').value;
+  document.getElementById('sub-vol-lbl').textContent = v+'%';
+  if (state.gainSub) state.gainSub.gain.value = v/100;
+}
+
+function startSubliminalLoop() {
+  if (state.subInterval) clearInterval(state.subInterval);
+  if (!state.subliminals.length || !state.speechSynth) return;
+  let idx = 0;
+  function playNext() {
+    if (!state.isPlaying || !state.subliminals.length) return;
+    const sub = state.subliminals[idx % state.subliminals.length];
+    idx++;
+    const utt = new SpeechSynthesisUtterance(sub.text);
+    utt.volume = parseFloat(document.getElementById('sub-vol').value) / 100 * 0.3;
+    utt.rate = 1.2;
+    utt.pitch = 1;
+    state.speechSynth.speak(utt);
+  }
+  const delays = { slow: 30000, medium: 15000, fast: 8000 };
+  playNext();
+  state.subInterval = setInterval(playNext, 15000);
+}
+
+// ═══════════════════════════════════════════════
+// CHAT SESSION HELPERS
+// ═══════════════════════════════════════════════
+function getActiveFefeSession() {
+  if (!state.fefeSessions.length) return null;
+  return state.fefeSessions.find(s => s.id === state.activeFefeId) || state.fefeSessions[state.fefeSessions.length - 1];
+}
+
+function getActiveDeluluSession() {
+  if (!state.deluluSessions.length) return null;
+  return state.deluluSessions.find(s => s.id === state.activeDeluluId) || state.deluluSessions[state.deluluSessions.length - 1];
+}
+
+function sessionTitle(messages) {
+  const first = messages.find(m => m.role === 'user');
+  if (!first) return 'New Chat';
+  return first.content.slice(0, 40) + (first.content.length > 40 ? '...' : '');
+}
+
+function formatSessionDate(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  const diffDays = Math.floor((now - d) / 86400000);
+  if (diffDays === 0) return 'Today · ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  if (diffDays === 1) return 'Yesterday';
+  if (diffDays < 7) return d.toLocaleDateString([], {weekday:'long'});
+  return d.toLocaleDateString([], {month:'short',day:'numeric'});
+}
+
+// ── FEFE SESSIONS ──
+function newFefeSession() {
+  const session = { id: uid(), date: Date.now(), messages: [] };
+  state.fefeSessions.push(session);
+  state.activeFefeId = session.id;
+  save();
+  renderFefeChat();
+  renderFefeSessions();
+}
+
+function loadFefeSession(id) {
+  state.activeFefeId = id;
+  save();
+  renderFefeChat();
+  renderFefeSessions();
+  closeOverlay('fefe-sessions-overlay');
+}
+
+function deleteFefeSession(id, e) {
+  e.stopPropagation();
+  state.fefeSessions = state.fefeSessions.filter(s => s.id !== id);
+  if (state.activeFefeId === id) {
+    state.activeFefeId = state.fefeSessions.length ? state.fefeSessions[state.fefeSessions.length-1].id : null;
+  }
+  save();
+  renderFefeChat();
+  renderFefeSessions();
+}
+
+function openFefeSessions() {
+  renderFefeSessions();
+  document.getElementById('fefe-sessions-overlay').classList.add('open');
+}
+
+function renderFefeSessions() {
+  const list = document.getElementById('fefe-sessions-list');
+  if (!list) return;
+  const sessions = [...state.fefeSessions].reverse();
+  if (!sessions.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">💅</div><p>No saved chats yet.<br>Start a conversation with Fefe ✨</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  sessions.forEach(s => {
+    const isActive = s.id === state.activeFefeId;
+    const title = sessionTitle(s.messages) || 'New Chat';
+    const preview = s.messages.length > 1 ? (s.messages[s.messages.length-1].content || '').slice(0,60) : 'No messages yet';
+    const div = document.createElement('div');
+    div.className = 'session-item' + (isActive ? ' active-session' : '');
+    div.onclick = () => loadFefeSession(s.id);
+    div.innerHTML = `
+      <div style="font-size:1.4rem">💅</div>
+      <div class="session-info">
+        <div class="session-title">${title}</div>
+        <div class="session-meta">${formatSessionDate(s.date)} · ${s.messages.length} messages</div>
+        <div class="session-preview">${preview}</div>
+      </div>
+      <button class="session-del" onclick="deleteFefeSession('${s.id}',event)">🗑️</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function renderFefeChat() {
+  const container = document.getElementById('chat-messages');
+  if (!container) return;
+  // Clear all except we'll rebuild
+  container.innerHTML = '';
+  // Welcome message always first
+  const welcomeDiv = document.createElement('div');
+  welcomeDiv.className = 'chat-msg bot';
+  welcomeDiv.innerHTML = '<div class="chat-avatar">💅</div><div class="chat-bubble">Hey babe! I\'m Fefe, your personal glow up bestie! 💕 I can help you with skincare reviews, product recommendations, beauty tips, and anything glow-related. What are we working on today? ✨</div>';
+  container.appendChild(welcomeDiv);
+
+  const session = getActiveFefeSession();
+  if (session) {
+    document.getElementById('fefe-session-title').textContent = sessionTitle(session.messages) || 'New Chat';
+    session.messages.forEach(msg => {
+      appendChatBubble(msg.role, msg.content || (msg.image ? '[Image]' : ''), msg.image, false);
+    });
+  } else {
+    document.getElementById('fefe-session-title').textContent = 'New Chat';
+  }
+  container.scrollTop = container.scrollHeight;
+}
+
+// ── DELULU SESSIONS ──
+function newDeluluSession() {
+  const session = { id: uid(), date: Date.now(), messages: [] };
+  state.deluluSessions.push(session);
+  state.activeDeluluId = session.id;
+  save();
+  renderDeluluChat();
+  renderDeluluSessions();
+}
+
+function loadDeluluSession(id) {
+  state.activeDeluluId = id;
+  save();
+  renderDeluluChat();
+  renderDeluluSessions();
+  closeOverlay('delulu-sessions-overlay');
+}
+
+function deleteDeluluSession(id, e) {
+  e.stopPropagation();
+  state.deluluSessions = state.deluluSessions.filter(s => s.id !== id);
+  if (state.activeDeluluId === id) {
+    state.activeDeluluId = state.deluluSessions.length ? state.deluluSessions[state.deluluSessions.length-1].id : null;
+  }
+  save();
+  renderDeluluChat();
+  renderDeluluSessions();
+}
+
+function openDeluluSessions() {
+  renderDeluluSessions();
+  document.getElementById('delulu-sessions-overlay').classList.add('open');
+}
+
+function renderDeluluSessions() {
+  const list = document.getElementById('delulu-sessions-list');
+  if (!list) return;
+  const sessions = [...state.deluluSessions].reverse();
+  if (!sessions.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🔮</div><p>No saved chats yet.<br>Start manifesting with Delulu ✨</p></div>';
+    return;
+  }
+  list.innerHTML = '';
+  sessions.forEach(s => {
+    const isActive = s.id === state.activeDeluluId;
+    const title = sessionTitle(s.messages) || 'New Chat';
+    const preview = s.messages.length > 1 ? (s.messages[s.messages.length-1].content || '').slice(0,60) : 'No messages yet';
+    const div = document.createElement('div');
+    div.className = 'session-item' + (isActive ? ' active-session delulu-active' : '');
+    div.onclick = () => loadDeluluSession(s.id);
+    div.innerHTML = `
+      <div style="font-size:1.4rem">🔮</div>
+      <div class="session-info">
+        <div class="session-title">${title}</div>
+        <div class="session-meta">${formatSessionDate(s.date)} · ${s.messages.length} messages</div>
+        <div class="session-preview">${preview}</div>
+      </div>
+      <button class="session-del" onclick="deleteDeluluSession('${s.id}',event)">🗑️</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function renderDeluluChat() {
+  const container = document.getElementById('delulu-messages');
+  if (!container) return;
+  container.innerHTML = '';
+  const welcomeDiv = document.createElement('div');
+  welcomeDiv.className = 'chat-msg bot';
+  welcomeDiv.innerHTML = `<div class="chat-avatar" style="background:linear-gradient(135deg,#9B59B6,#E040FB)">🔮</div><div class="chat-bubble" style="background:linear-gradient(135deg,#2D0A4E,#1A0A2E);border-color:#6A0DAD;color:#F0E6FF">Hey! Okay so here's the thing — whatever you want, it's already yours. That's just how this works. You decide, you assume it's done, you stop looking for proof, and it shows up. Simple. So what are we working on? 🔮</div>`;
+  container.appendChild(welcomeDiv);
+
+  const session = getActiveDeluluSession();
+  if (session) {
+    document.getElementById('delulu-session-title').textContent = sessionTitle(session.messages) || 'New Chat';
+    session.messages.forEach(msg => appendDeluluBubble(msg.role, msg.content || '', false));
+  } else {
+    document.getElementById('delulu-session-title').textContent = 'New Chat';
+  }
+  container.scrollTop = container.scrollHeight;
+}
+
+// legacy renderChat kept for renderAll compatibility
+function renderChat() {
+  // Migrate old chatHistory into a fefe session if needed
+  if (state.chatHistory && state.chatHistory.length && !state.fefeSessions.length) {
+    const migrated = { id: uid(), date: Date.now(), messages: state.chatHistory };
+    state.fefeSessions.push(migrated);
+    state.activeFefeId = migrated.id;
+    state.chatHistory = [];
+    save();
+  }
+  renderFefeChat();
+  renderDeluluChat();
+}
+
+function appendChatBubble(role, text, imageData=null, scroll=true) {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  const avatar = role==='bot'?'<div class="chat-avatar">💅</div>':'';
+  const imgHtml = imageData ? `<img src="${imageData}" class="chat-img-preview">` : '';
+  div.innerHTML = `${avatar}<div class="chat-bubble">${text.replace(/\n/g,'<br>')}${imgHtml}</div>`;
+  messages.appendChild(div);
+  if (scroll) messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping() {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'typing-indicator';
+  div.innerHTML = '<div class="chat-avatar">💅</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function hideTyping() { const el = document.getElementById('typing-indicator'); if (el) el.remove(); }
+
+function chatKeydown(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+
+function handleChatImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { state.chatPendingImage = e.target.result; showToast('Image ready to send 📸'); };
+  reader.readAsDataURL(file);
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text && !state.chatPendingImage) return;
+  const image = state.chatPendingImage;
+  state.chatPendingImage = null;
+  input.value = ''; input.style.height = 'auto';
+
+  // Ensure there's an active session
+  if (!state.activeFefeId || !state.fefeSessions.find(s => s.id === state.activeFefeId)) {
+    const session = { id: uid(), date: Date.now(), messages: [] };
+    state.fefeSessions.push(session);
+    state.activeFefeId = session.id;
+  }
+  const session = getActiveFefeSession();
+
+  appendChatBubble('user', text || '[Image]', image);
+  session.messages.push({ role: 'user', content: text || '[Image]', image });
+  // Update title in header after first user message
+  if (session.messages.filter(m=>m.role==='user').length === 1) {
+    document.getElementById('fefe-session-title').textContent = sessionTitle(session.messages);
+  }
+  showTyping();
+  const reply = await callFefe(text, image, session.messages);
+  hideTyping();
+  appendChatBubble('bot', reply);
+  session.messages.push({ role: 'bot', content: reply });
+  save();
+}
+
+function sendSuggestion(btn) {
+  document.getElementById('chat-input').value = btn.textContent;
+  sendChat();
+}
+
+async function sendOutfitPrompt(prompt) {
+  switchGlowTab(document.querySelector('.glowup-tab[data-tab="outfit-tab"]'),'outfit-tab');
+  document.getElementById('outfit-custom').value = prompt;
+  sendCustomOutfit();
+}
+
+async function sendCustomOutfit() {
+  const prompt = document.getElementById('outfit-custom').value.trim();
+  if (!prompt) { showToast('Describe the vibe first!'); return; }
+  document.getElementById('outfit-response').style.display = 'block';
+  document.getElementById('outfit-content').innerHTML = '<div style="color:var(--text-muted)">Fefe is styling you... 💅</div>';
+  const reply = await callFefe(`Give me a detailed outfit idea for: ${prompt}. Include specific clothing items, colors, styling tips, accessories, and shoes. Make it cute and feminine.`);
+  document.getElementById('outfit-content').innerHTML = reply.replace(/\n/g,'<br>');
+}
+
+async function callFefe(userMsg, imageData=null, sessionMessages=[]) {
+  const systemPrompt = `You are Fefe, a bubbly, knowledgeable, and supportive AI glow-up bestie. You're fun, encouraging, and deeply knowledgeable about skincare, beauty, fashion, wellness, and self-care. You give honest product reviews and recommendations, outfit inspiration, and glow-up advice. You use a warm, feminine tone with occasional cute phrases. You're like a mix between a beauty influencer and a wise big sister. When analyzing skincare products, give honest pros and cons. For outfit inspo, be specific and creative. Always be uplifting and positive. Keep responses concise but thorough. Use emojis occasionally but not excessively.`;
+
+  const messages = [];
+  const historySlice = sessionMessages.slice(-10);
+  historySlice.forEach(msg => {
+    if (msg.role === 'user') {
+      const content = [];
+      if (msg.image) content.push({ type:'image', source:{ type:'base64', media_type:'image/jpeg', data: msg.image.split(',')[1]||msg.image } });
+      content.push({ type:'text', text: msg.content||'[image]' });
+      messages.push({ role:'user', content });
+    } else {
+      messages.push({ role:'assistant', content: msg.content });
+    }
+  });
+  if (!messages.length || messages[messages.length-1].role !== 'user') {
+    const content = [];
+    if (imageData) content.push({ type:'image', source:{ type:'base64', media_type:'image/jpeg', data: imageData.split(',')[1]||imageData } });
+    content.push({ type:'text', text: userMsg||'What do you think?' });
+    messages.push({ role:'user', content });
+  }
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages,
+      })
+    });
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    return data.content?.[0]?.text || 'Hmm, something went wrong! Try again babe 💕';
+  } catch(e) {
+    // Fallback offline responses
+    const fallbacks = [
+      'Hey gorgeous! I\'m offline right now but I saved your question. Connect to the internet and ask me again — I\'ll give you the full breakdown! 💕',
+      'I\'m in offline mode right now, babe! When you\'re back online I can give you proper product reviews and all the glow-up advice you need ✨',
+      'No internet right now! But your message is saved. Come back when you\'re connected and Fefe will spill all the tea on that! 💅',
+    ];
+    return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+  }
+}
+
+// ═══════════════════════════════════════════════
+// DELULU BESTIE AI
+// ═══════════════════════════════════════════════
+function deluluKeydown(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendDelulu(); } }
+
+function sendDeluluSuggestion(btn) {
+  document.getElementById('delulu-input').value = btn.textContent;
+  sendDelulu();
+}
+
+function appendDeluluBubble(role, text, scroll=true) {
+  const messages = document.getElementById('delulu-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  const isBot = role === 'bot';
+  const avatar = isBot ? `<div class="chat-avatar" style="background:linear-gradient(135deg,#9B59B6,#E040FB)">🔮</div>` : '';
+  const bubbleStyle = isBot ? 'background:linear-gradient(135deg,#2D0A4E,#1A0A2E);border-color:#6A0DAD;color:#F0E6FF' : 'background:linear-gradient(135deg,#9B59B6,#E040FB);color:#fff';
+  div.innerHTML = `${avatar}<div class="chat-bubble" style="${bubbleStyle}">${text.replace(/\n/g,'<br>')}</div>`;
+  messages.appendChild(div);
+  if (scroll) messages.scrollTop = messages.scrollHeight;
+}
+
+function showDeluluTyping() {
+  const messages = document.getElementById('delulu-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'delulu-typing';
+  div.innerHTML = `<div class="chat-avatar" style="background:linear-gradient(135deg,#9B59B6,#E040FB)">🔮</div><div class="typing-indicator" style="background:linear-gradient(135deg,#2D0A4E,#1A0A2E);border-color:#6A0DAD"><div class="typing-dot" style="background:#C77DFF"></div><div class="typing-dot" style="background:#C77DFF"></div><div class="typing-dot" style="background:#C77DFF"></div></div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function hideDeluluTyping() { const el = document.getElementById('delulu-typing'); if (el) el.remove(); }
+
+async function sendDelulu() {
+  const input = document.getElementById('delulu-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+
+  // Ensure there's an active session
+  if (!state.activeDeluluId || !state.deluluSessions.find(s => s.id === state.activeDeluluId)) {
+    const session = { id: uid(), date: Date.now(), messages: [] };
+    state.deluluSessions.push(session);
+    state.activeDeluluId = session.id;
+  }
+  const session = getActiveDeluluSession();
+
+  appendDeluluBubble('user', text);
+  session.messages.push({ role: 'user', content: text });
+  if (session.messages.filter(m => m.role === 'user').length === 1) {
+    document.getElementById('delulu-session-title').textContent = sessionTitle(session.messages);
+  }
+  showDeluluTyping();
+  const reply = await callDelulu(text, session.messages);
+  hideDeluluTyping();
+  appendDeluluBubble('bot', reply);
+  session.messages.push({ role: 'assistant', content: reply });
+  save();
+}
+
+async function callDelulu(userMsg, sessionMessages=[]) {
+  const systemPrompt = `You are Delulu — a manifestation bestie and coach modelled after Sammy Ingram's style and approach to law of assumption. You are direct, warm, no-nonsense, and completely unbothered by doubt or "logic."
+
+Embody Sammy Ingram's exact style:
+- Super direct and to the point. No long spiritual speeches. Short, punchy, real.
+- You normalise the desire immediately. You talk about it like it's already done and obvious. "Of course you have that. That's just how this works."
+- You make manifesting feel simple and almost boring — like "just decide and move on." Not mystical, not complicated.
+- You're big on: deciding, persisting in your assumption, not reacting to the 3D (current reality), not looking for proof or signs, just knowing it's done.
+- You call out self-sabotage quickly and lovingly but you don't dwell — you redirect fast and get back to the point.
+- You say things like: "stop looking at the 3D," "just decide," "your only job is to stay in your assumption," "babe you're doing too much," "it's already done, act like it," "the 3D always catches up," "you don't need proof," "just know."
+- When giving a technique you give ONE simple thing — not a list of five methods. Keep it simple.
+- Casual everyday language. Texting a friend energy. Not guru energy.
+- Firm but warm. You love the user but you don't let them wallow in doubt.
+- You NEVER question whether the desire is possible. You NEVER say "but realistically" or "you might need to." You normalise all desires.
+- You treat manifesting like it's as normal as making breakfast. Just a thing that works.
+- Funny and real sometimes — not always intense.
+- Keep responses SHORT and punchy mostly. Only go longer if they need a proper coaching moment.
+- NEVER quote Neville or use academic LOA terms. Keep it street-level simple.`;
+
+  const messages = sessionMessages.slice(-10).map(m => ({
+    role: m.role === 'bot' ? 'assistant' : m.role,
+    content: m.content
+  }));
+  if (!messages.length || messages[messages.length-1].role !== 'user') {
+    messages.push({ role: 'user', content: userMsg });
+  }
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages,
+      })
+    });
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    return data.content?.[0]?.text || 'The universe is conspiring FOR you, bestie. Try again in a sec 🔮';
+  } catch(e) {
+    const fallbacks = [
+      'Bestie I\'m offline right now but hear me — your desire already exists. It\'s done. Come back when you\'re connected and we\'ll script it into reality together 🔮💜',
+      'No wifi can stop what\'s already yours 👑 I\'ll be back online soon. Until then — assume it\'s already happened. Feel it. Live in it.',
+      'The 4D doesn\'t need internet babe 🌙 Your desire is already real in imagination. I\'ll give you the full coaching when I\'m back online ✨',
+    ];
+    return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+  }
+}
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+  backdrop.addEventListener('click', e => {
+    if (e.target === backdrop) closeModal(backdrop.id);
+  });
+});
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════════
+document.getElementById('theme-btn').addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
+});
+
+// Auto dark mode
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.documentElement.setAttribute('data-theme','dark');
+  document.getElementById('theme-btn').textContent = '☀️';
+}
+
+// ═══════════════════════════════════════════════
+// PWA INSTALL
+// ═══════════════════════════════════════════════
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  state.deferredInstall = e;
+  document.getElementById('install-banner').classList.add('show');
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (state.deferredInstall) {
+    state.deferredInstall.prompt();
+    const { outcome } = await state.deferredInstall.userChoice;
+    state.deferredInstall = null;
+    document.getElementById('install-banner').classList.remove('show');
+    if (outcome === 'accepted') showToast('Lumina installed! 🌸');
+  }
+});
+
+// ═══════════════════════════════════════════════
+// COUNTER HISTORY / STATS
+// ═══════════════════════════════════════════════
+function getCounterStats(counter) {
+  const today = getTodayKey();
+  const counts = counter.counts || {};
+  const allDays = Object.keys(counts).sort();
+  const todayVal = counts[today] || 0;
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const streak = calcCounterStreak(counts, counter.goal);
+  const best = Math.max(0, ...Object.values(counts));
+  return { todayVal, total, streak, best, allDays };
+}
+
+function calcCounterStreak(counts, goal) {
+  let streak = 0;
+  const d = new Date();
+  while (true) {
+    const key = d.toISOString().slice(0, 10);
+    if ((counts[key] || 0) >= goal) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  return streak;
+}
+
+// ═══════════════════════════════════════════════
+// VISION BOARD (stored as affirmation images in journal)
+// ═══════════════════════════════════════════════
+function openVisionBoard() {
+  const images = state.journalEntries.flatMap(e => e.images || []);
+  const overlay = document.getElementById('vision-board-overlay');
+  const grid = document.getElementById('vision-grid');
+  grid.innerHTML = '';
+  if (!images.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🖼️</div><p>Add pictures to your journal entries to build your vision board automatically ✨</p></div>';
+  } else {
+    images.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.cssText = 'width:100%;border-radius:10px;object-fit:cover;aspect-ratio:1;cursor:pointer';
+      img.onclick = () => { window.open(src); };
+      grid.appendChild(img);
+    });
+  }
+  overlay.classList.add('open');
+}
+
+// ═══════════════════════════════════════════════
+// AFFIRMATION FLASHER (in-app)
+// ═══════════════════════════════════════════════
+function startAffirmationFlash() {
+  if (!state.affirmations.length) return;
+  const flashDiv = document.getElementById('aff-flash');
+  if (!flashDiv) return;
+  let idx = 0;
+  function flash() {
+    const aff = state.affirmations[idx % state.affirmations.length];
+    idx++;
+    flashDiv.textContent = aff.text;
+    flashDiv.style.opacity = '1';
+    setTimeout(() => { flashDiv.style.opacity = '0'; }, 3500);
+  }
+  flash();
+  setInterval(flash, 5000);
+}
+
+// ═══════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════
+function renderAll() {
+  renderCounters();
+  renderJournal();
+  renderAffirmations();
+  renderSubliminals();
+  renderChat();
+  renderCounterStats();
+  if (document.getElementById('notif-toggle')) {
+    document.getElementById('notif-toggle').checked = state.notifEnabled;
+  }
+  if (document.getElementById('notif-interval')) {
+    document.getElementById('notif-interval').value = state.notifInterval || 60;
+  }
+}
+
+function renderCounterStats() {
+  const statsEl = document.getElementById('counter-stats-grid');
+  if (!statsEl || !state.counters.length) return;
+  const ac = state.counters[state.activeCounterIndex];
+  if (!ac) return;
+  const { todayVal, total, streak, best } = getCounterStats(ac);
+  statsEl.innerHTML = `
+    <div class="stat-box"><div class="stat-num">${todayVal}</div><div class="stat-lbl">Today</div></div>
+    <div class="stat-box"><div class="stat-num">${streak}</div><div class="stat-lbl">🔥 Streak</div></div>
+    <div class="stat-box"><div class="stat-num">${best}</div><div class="stat-lbl">Best Day</div></div>
+    <div class="stat-box"><div class="stat-num">${total}</div><div class="stat-lbl">All Time</div></div>
+  `;
+}
+
+// start in-app affirmation flash on load
+window.addEventListener('load', () => {
+  setTimeout(startAffirmationFlash, 3000);
+});
+</script>
+
+<!-- FEFE SESSIONS OVERLAY -->
+<div class="editor-overlay" id="fefe-sessions-overlay">
+  <div class="editor-header">
+    <button class="icon-btn" onclick="closeOverlay('fefe-sessions-overlay')">←</button>
+    <h3>💅 Fefe Chats</h3>
+    <button class="btn btn-primary btn-sm" onclick="newFefeSession();closeOverlay('fefe-sessions-overlay')">✏️ New</button>
+  </div>
+  <div class="editor-body">
+    <div id="fefe-sessions-list"></div>
+  </div>
+</div>
+
+<!-- DELULU SESSIONS OVERLAY -->
+<div class="editor-overlay" id="delulu-sessions-overlay">
+  <div class="editor-header">
+    <button class="icon-btn" onclick="closeOverlay('delulu-sessions-overlay')">←</button>
+    <h3>🔮 Delulu Chats</h3>
+    <button class="btn btn-sm" style="background:linear-gradient(135deg,#9B59B6,#E040FB);color:#fff" onclick="newDeluluSession();closeOverlay('delulu-sessions-overlay')">✏️ New</button>
+  </div>
+  <div class="editor-body">
+    <div id="delulu-sessions-list"></div>
+  </div>
+</div>
+
+<!-- VISION BOARD OVERLAY -->
+<div class="editor-overlay" id="vision-board-overlay">
+  <div class="editor-header">
+    <button class="icon-btn" onclick="closeOverlay('vision-board-overlay')">←</button>
+    <h3>🖼️ Vision Board</h3>
+    <button class="btn btn-outline btn-sm" onclick="switchPage('journal');closeOverlay('vision-board-overlay')">+ Add</button>
+  </div>
+  <div class="editor-body">
+    <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:16px">All images from your journal entries, collected into your vision board ✨</p>
+    <div class="vision-grid" id="vision-grid"></div>
+  </div>
+</div>
+
+<!-- SERVICE WORKER REGISTRATION -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>

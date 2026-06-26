@@ -1,0 +1,24 @@
+{
+  "name": "Lumina – Glow Up & Manifestation",
+  "short_name": "Lumina",
+  "description": "Your personal glow up and manifestation companion",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF0F8",
+  "theme_color": "#FF6EB4",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%23FF6EB4'/><text y='340' x='80' font-size='340'>✨</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "health", "utilities"],
+  "screenshots": [],
+  "shortcuts": [
+    { "name": "Journal", "url": "./index.html#journal", "description": "Open Journal" },
+    { "name": "Manifestation", "url": "./index.html#manifestation", "description": "Open Manifestation" }
+  ]
+}
